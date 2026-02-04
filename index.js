@@ -320,12 +320,14 @@ function updateBookmarkUI(messageId) {
 
     // 북마크 아이콘 업데이트
     let bookmarkIcon = messageElement.find('.msg-bookmark-icon');
+    let bookmarkRibbon = messageElement.find('.msg-bookmark-ribbon');
     const bookmarkColor = bookmark?.color || '#ffd700';
 
     // 하이라이트 전용이면 북마크 아이콘 표시 안함
     const isActualBookmark = bookmark && !bookmark.isHighlightOnly;
 
     if (isActualBookmark) {
+        // 데스크탑용 아이콘 (왼쪽)
         if (!bookmarkIcon.length) {
             const iconHtml = `<div class="msg-bookmark-icon" title="북마크됨 - 클릭하여 메모 보기" style="color: ${bookmarkColor};">
                 <i class="fa-solid fa-bookmark"></i>
@@ -334,10 +336,22 @@ function updateBookmarkUI(messageId) {
         } else {
             bookmarkIcon.css('color', bookmarkColor);
         }
+        
+        // 모바일용 리봄 (상단 오른쪽)
+        if (!bookmarkRibbon.length) {
+            const ribbonHtml = `<div class="msg-bookmark-ribbon" title="북마크됨" style="background-color: ${bookmarkColor};">
+                <i class="fa-solid fa-bookmark"></i>
+            </div>`;
+            messageElement.append(ribbonHtml);
+        } else {
+            bookmarkRibbon.css('background-color', bookmarkColor);
+        }
+        
         messageElement.addClass('has-bookmark');
         messageElement.css('border-left-color', bookmarkColor);
     } else {
         bookmarkIcon.remove();
+        bookmarkRibbon.remove();
         messageElement.removeClass('has-bookmark');
         messageElement.css('border-left-color', '');
     }
