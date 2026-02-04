@@ -318,26 +318,15 @@ function updateBookmarkUI(messageId) {
 
     if (!messageElement.length) return;
 
-    // 북마크 아이콘 업데이트
-    let bookmarkIcon = messageElement.find('.msg-bookmark-icon');
+    // 북마크 리본 업데이트
     let bookmarkRibbon = messageElement.find('.msg-bookmark-ribbon');
     const bookmarkColor = bookmark?.color || '#ffd700';
 
-    // 하이라이트 전용이면 북마크 아이콘 표시 안함
+    // 하이라이트 전용이면 북마크 표시 안함
     const isActualBookmark = bookmark && !bookmark.isHighlightOnly;
 
     if (isActualBookmark) {
-        // 데스크탑용 아이콘 (왼쪽)
-        if (!bookmarkIcon.length) {
-            const iconHtml = `<div class="msg-bookmark-icon" title="북마크됨 - 클릭하여 메모 보기" style="color: ${bookmarkColor};">
-                <i class="fa-solid fa-bookmark"></i>
-            </div>`;
-            messageElement.find('.mes_block').prepend(iconHtml);
-        } else {
-            bookmarkIcon.css('color', bookmarkColor);
-        }
-        
-        // 모바일용 리봄 (상단 오른쪽)
+        // 리본 표시 (상단 오른쪽)
         if (!bookmarkRibbon.length) {
             const ribbonHtml = `<div class="msg-bookmark-ribbon" title="북마크됨" style="background-color: ${bookmarkColor};">
                 <i class="fa-solid fa-bookmark"></i>
@@ -348,12 +337,9 @@ function updateBookmarkUI(messageId) {
         }
         
         messageElement.addClass('has-bookmark');
-        messageElement.css('border-left-color', bookmarkColor);
     } else {
-        bookmarkIcon.remove();
         bookmarkRibbon.remove();
         messageElement.removeClass('has-bookmark');
-        messageElement.css('border-left-color', '');
     }
 }
 
@@ -848,7 +834,7 @@ function setupMobileSelectionHandler() {
 }
 
 /**
- * 플로팅 툴바 표시 (간소화 - 하이라이트 버튼과 북마크 버튼만)
+ * 플로팅 툴바 표시 (하이라이트 색상 선택 버튼들)
  */
 function showFloatingToolbar(selection, mesText) {
     hideFloatingToolbar();
@@ -857,21 +843,23 @@ function showFloatingToolbar(selection, mesText) {
     const messageId = parseInt(messageElement.attr('mesid'));
 
     const settings = extension_settings[MODULE_NAME];
-    const highlightColor = settings.defaultHighlightColor || '#ffff00';
+    const highlightColors = settings.highlightColors || defaultSettings.highlightColors;
     const bookmarkColor = settings.defaultBookmarkColor || '#ffd700';
 
     // 선택 영역의 위치 계산
     const range = selection.getRangeAt(0);
     const rect = range.getBoundingClientRect();
 
+    // 색상 버튼들 생성
+    const colorButtons = highlightColors.map(c => 
+        `<button class="floating-color-btn" data-color="${c.color}" title="${c.name}" style="background-color: ${c.color};"></button>`
+    ).join('');
+
     const toolbarHtml = `
         <div class="highlight-floating-toolbar" data-message-id="${messageId}">
-            <button class="floating-highlight-btn" title="하이라이트" style="background-color: ${highlightColor};">
-                <i class="fa-solid fa-highlighter"></i>
-            </button>
-            <button class="floating-bookmark-btn" title="북마크" style="background-color: ${bookmarkColor};">
-                <i class="fa-solid fa-bookmark"></i>
-            </button>
+            <div class="floating-toolbar-colors">
+                ${colorButtons}
+            </div>
         </div>
     `;
 
@@ -899,15 +887,10 @@ function showFloatingToolbar(selection, mesText) {
         top: top + 'px'
     });
 
-    // 하이라이트 버튼 클릭
-    toolbar.find('.floating-highlight-btn').on('click', async function() {
-        await highlightSelection();
-        hideFloatingToolbar();
-    });
-
-    // 북마크 버튼 클릭
-    toolbar.find('.floating-bookmark-btn').on('click', async function() {
-        await editBookmarkNote(messageId);
+    // 하이라이트 색상 버튼 클릭
+    toolbar.find('.floating-color-btn').on('click', async function() {
+        const color = $(this).data('color');
+        await highlightSelection(color);
         hideFloatingToolbar();
     });
 }
@@ -920,40 +903,35 @@ function hideFloatingToolbar() {
 }
 
 /**
- * 하이라이트 컨텍스트 메뉴 표시 (간소화)
+ * 하이라이트 컨텍스트 메뉴 표시 (색상 선택 옵션)
  */
 function showHighlightContextMenu(x, y, messageId) {
     // 기존 메뉴 제거
     $('.highlight-context-menu').remove();
 
     const settings = extension_settings[MODULE_NAME];
-    const highlightColor = settings.defaultHighlightColor || '#ffff00';
+    const highlightColors = settings.highlightColors || defaultSettings.highlightColors;
     const bookmarkColor = settings.defaultBookmarkColor || '#ffd700';
+
+    const colorItems = highlightColors.map(c =>
+        `<div class="context-menu-item highlight-color-item" data-color="${c.color}">
+            <span class="color-dot" style="background-color: ${c.color};"></span>
+            ${c.name} 하이라이트
+        </div>`
+    ).join('');
 
     const menuHtml = `
         <div class="highlight-context-menu" style="position: fixed; left: ${x}px; top: ${y}px;">
-            <div class="context-menu-item highlight-action-item">
-                <span class="color-dot" style="background-color: ${highlightColor};"></span>
-                하이라이트 추가
-            </div>
-            <div class="context-menu-divider"></div>
-            <div class="context-menu-item bookmark-msg-item">
-                <span class="color-dot" style="background-color: ${bookmarkColor};"></span>
-                메시지 북마크
-            </div>
+            ${colorItems}
         </div>
     `;
 
     $('body').append(menuHtml);
 
     // 메뉴 이벤트
-    $('.highlight-action-item').on('click', async function() {
-        await highlightSelection();
-        $('.highlight-context-menu').remove();
-    });
-
-    $('.bookmark-msg-item').on('click', async function() {
-        await editBookmarkNote(messageId);
+    $('.highlight-color-item').on('click', async function() {
+        const color = $(this).data('color');
+        await highlightSelection(color);
         $('.highlight-context-menu').remove();
     });
 
@@ -1140,12 +1118,6 @@ async function renderSettings() {
                                     ${bookmarkColorButtons}
                                 </div>
                             </div>
-                            <div class="mb-color-row">
-                                <label><i class="fa-solid fa-highlighter"></i> 하이라이트 색상:</label>
-                                <div class="mb-color-picker">
-                                    ${highlightColorButtons}
-                                </div>
-                            </div>
                         </div>
 
                         <hr>
@@ -1179,15 +1151,6 @@ async function renderSettings() {
         extension_settings[MODULE_NAME].defaultBookmarkColor = $(this).data('color');
         saveSettingsDebounced();
         toastr.success('북마크 색상이 변경되었습니다');
-    });
-
-    // 하이라이트 색상 선택
-    $('.highlight-color-option').on('click', function() {
-        $('.highlight-color-option').removeClass('selected');
-        $(this).addClass('selected');
-        extension_settings[MODULE_NAME].defaultHighlightColor = $(this).data('color');
-        saveSettingsDebounced();
-        toastr.success('하이라이트 색상이 변경되었습니다');
     });
 
     $('#mb-show-panel').on('click', toggleBookmarkPanel);

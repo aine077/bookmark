@@ -1,62 +1,42 @@
 /* Message Bookmarks Extension Styles */
 
-/* 북마크 아이콘 */
+/* 북마크 아이콘 (데스크탑에서 숨김) */
 .msg-bookmark-icon {
-    position: absolute;
-    left: -25px;
-    top: 5px;
-    color: #ffd700;
-    font-size: 16px;
-    cursor: pointer;
-    z-index: 10;
-    transition: transform 0.2s ease;
+    display: none;
 }
 
-.msg-bookmark-icon:hover {
-    transform: scale(1.2);
-}
-
-/* 북마크된 메시지 강조 */
+/* 북마크된 메시지 강조 - 테두리 없음 */
 .mes.has-bookmark {
-    border-left: 3px solid #ffd700;
+    /* border-left 제거 */
 }
 
-/* 모바일용 북마크 리봄 (상단 오른쪽 책갈피 아이콘) */
+/* 북마크 리본 (항상 표시) */
 .msg-bookmark-ribbon {
-    display: none; /* 기본적으로 숨김, 모바일에서만 표시 */
+    display: flex;
     position: absolute;
     top: 0;
     right: 10px;
     width: 24px;
     height: 32px;
-    background-color: #ffd700;
+    background-color: #f39eb6;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
     z-index: 10;
     align-items: flex-start;
     justify-content: center;
     padding-top: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.msg-bookmark-ribbon:hover {
+    transform: scale(1.1);
 }
 
 .msg-bookmark-ribbon i {
     color: #fff;
     font-size: 10px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-/* 모바일에서 리봄 표시, 아이콘 숨김 */
-@media (max-width: 768px) {
-    .msg-bookmark-icon {
-        display: none;
-    }
-    
-    .msg-bookmark-ribbon {
-        display: flex;
-    }
-    
-    .mes.has-bookmark {
-        border-left: none;
-    }
 }
 
 /* 북마크 편집 팝업 */
@@ -114,7 +94,7 @@
 
 .bookmark-note-section textarea:focus {
     outline: none;
-    border-color: #ffd700;
+    border-color: #f39eb6;
 }
 
 /* 북마크 버튼 스타일 */
@@ -128,7 +108,7 @@
 }
 
 .mes_bookmark_btn.bookmarked {
-    color: #ffd700;
+    color: #f39eb6;
     opacity: 1;
 }
 
@@ -167,7 +147,7 @@
     align-items: center;
     padding: 12px 15px;
     border-bottom: 1px solid var(--SmartThemeBorderColor);
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 10px 10px 0 0;
 }
 
@@ -180,14 +160,14 @@
 }
 
 .bookmark-panel-header h3 i {
-    color: #ffd700;
+    color: #f39eb6;
 }
 
 /* 패널 컨트롤 */
 .bookmark-panel-controls {
     padding: 8px 15px;
     border-bottom: 1px solid var(--SmartThemeBorderColor);
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.9);
 }
 
 .bookmark-panel-controls .checkbox_label {
@@ -205,12 +185,12 @@
     align-items: center;
     gap: 8px;
     padding: 10px 12px;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 6px;
     margin-bottom: 8px;
     margin-top: 12px;
     font-weight: bold;
-    color: var(--SmartThemeQuoteColor);
+   
 }
 
 .bookmark-chat-header:first-child {
@@ -218,9 +198,9 @@
 }
 
 .bookmark-chat-header.current-chat {
-    background: rgba(255, 215, 0, 0.15);
-    color: #ffd700;
-    border: 1px solid rgba(255, 215, 0, 0.3);
+    background: rgba(243, 158, 182, 0.15);
+    color: #f39eb6;
+    border: 1px solid rgba(243, 158, 182, 0.3);
 }
 
 .bookmark-chat-header i {
@@ -240,7 +220,7 @@
 }
 
 .other-chat-badge {
-    background: rgba(128, 128, 128, 0.5);
+    background: rgba(255, 255, 255, 0.9);
     padding: 2px 6px;
     border-radius: 8px;
     font-size: 10px;
@@ -250,7 +230,6 @@
 /* 다른 채팅방 북마크 아이템 */
 .bookmark-item.other-chat-item {
     opacity: 0.7;
-    border-left: 3px solid #888;
 }
 
 .bookmark-item.other-chat-item:hover {
@@ -272,9 +251,8 @@
 
 /* 북마크 아이템 */
 .bookmark-item {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.9);
     border: 1px solid var(--SmartThemeBorderColor);
-    border-left: 4px solid #ffd700;
     border-radius: 8px;
     padding: 12px;
     margin-bottom: 10px;
@@ -283,8 +261,8 @@
 }
 
 .bookmark-item:hover {
-    background: rgba(0, 0, 0, 0.3);
-    border-color: #ffd700;
+    background: rgba(255, 255, 255, 1);
+    border-color: #f39eb6;
 }
 
 .bookmark-item:last-child {
@@ -309,11 +287,11 @@
 
 /* 북마크 색상 점 */
 .bookmark-color-dot {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     flex-shrink: 0;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(243, 158, 182, 0.4);
 }
 
 .bookmark-name {
@@ -322,7 +300,7 @@
 }
 
 .highlight-count {
-    background: #ffa500;
+    background: var(--SmartThemeBorderColor);
     color: #000;
     padding: 2px 6px;
     border-radius: 10px;
@@ -342,12 +320,11 @@
 }
 
 .bookmark-note {
-    background: rgba(255, 215, 0, 0.1);
-    border-left: 3px solid #ffd700;
+    background: rgba(243, 158, 182, 0.1);
     padding: 6px 10px;
     font-size: 12px;
     margin-bottom: 8px;
-    border-radius: 0 4px 4px 0;
+    border-radius: 4px;
 }
 
 .bookmark-actions {
@@ -376,7 +353,7 @@
 
 @keyframes bookmark-flash {
     0% {
-        background-color: rgba(255, 215, 0, 0.4);
+        background-color: rgba(243, 158, 182, 0.4);
     }
     100% {
         background-color: transparent;
@@ -444,7 +421,8 @@
 }
 
 .mb-help {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
     padding: 10px;
     border-radius: 8px;
     font-size: 13px;
@@ -582,8 +560,8 @@
     height: 28px;
     border-radius: 14px;
     border: none;
-    background: rgba(255, 255, 0, 0.3);
-    color: #ffff00;
+    background: rgba(243, 158, 182, 0.3);
+    color: #f39eb6;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -594,7 +572,7 @@
 
 .floating-highlight-btn:hover,
 .floating-highlight-btn:active {
-    background: rgba(255, 255, 0, 0.5);
+    background: rgba(243, 158, 182, 0.5);
     transform: scale(1.1);
 }
 
@@ -603,8 +581,8 @@
     height: 28px;
     border-radius: 14px;
     border: none;
-    background: rgba(255, 215, 0, 0.2);
-    color: #ffd700;
+    background: rgba(243, 158, 182, 0.2);
+    color: #f39eb6;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -615,7 +593,7 @@
 
 .floating-bookmark-btn:hover,
 .floating-bookmark-btn:active {
-    background: rgba(255, 215, 0, 0.4);
+    background: rgba(243, 158, 182, 0.4);
     transform: scale(1.1);
 }
 
@@ -680,7 +658,7 @@
     align-items: center;
     padding: 12px 15px;
     border-bottom: 1px solid var(--SmartThemeBorderColor);
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 10px 10px 0 0;
 }
 
@@ -693,13 +671,13 @@
 }
 
 .highlight-panel-header h3 i {
-    color: #ffff00;
+    color: #f39eb6;
 }
 
 .highlight-panel-controls {
     padding: 8px 15px;
     border-bottom: 1px solid var(--SmartThemeBorderColor);
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.9);
 }
 
 .highlight-panel-controls .checkbox_label {
@@ -730,12 +708,12 @@
     align-items: center;
     gap: 8px;
     padding: 10px 12px;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 6px;
     margin-bottom: 8px;
     margin-top: 12px;
     font-weight: bold;
-    color: var(--SmartThemeQuoteColor);
+    color: #333;
 }
 
 .highlight-chat-header:first-child {
@@ -743,9 +721,9 @@
 }
 
 .highlight-chat-header.current-chat {
-    background: rgba(255, 255, 0, 0.15);
-    color: #ffff00;
-    border: 1px solid rgba(255, 255, 0, 0.3);
+    background: rgba(255, 255, 255, 1);
+    color: #f39eb6;
+    border: 1px solid #f39eb6;
 }
 
 .highlight-chat-header i {
@@ -760,8 +738,8 @@
 }
 
 .highlight-count-badge {
-    background: rgba(255, 255, 0, 0.3);
-    color: #ffff00;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
     padding: 2px 8px;
     border-radius: 10px;
     font-size: 11px;
@@ -769,7 +747,7 @@
 
 /* 하이라이트 리스트 아이템 */
 .highlight-list-item {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.9);
     border: 1px solid var(--SmartThemeBorderColor);
     border-radius: 8px;
     padding: 10px 12px;
@@ -779,7 +757,7 @@
 }
 
 .highlight-list-item:hover {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 1);
 }
 
 .highlight-list-item.other-chat-item {
@@ -802,7 +780,7 @@
     height: 14px;
     border-radius: 50%;
     flex-shrink: 0;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(243, 158, 182, 0.4);
 }
 
 .highlight-msg-id {
@@ -823,9 +801,8 @@
     font-size: 13px;
     color: var(--SmartThemeEmColor);
     padding: 6px 10px;
-    border-left: 3px solid #ffff00;
-    background: rgba(255, 255, 0, 0.1);
-    border-radius: 0 4px 4px 0;
+    background: rgba(243, 158, 182, 0.1);
+    border-radius: 4px;
     margin-bottom: 6px;
     font-style: italic;
 }
