@@ -1,0 +1,831 @@
+/* Message Bookmarks Extension Styles */
+
+/* 북마크 아이콘 */
+.msg-bookmark-icon {
+    position: absolute;
+    left: -25px;
+    top: 5px;
+    color: #ffd700;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.2s ease;
+}
+
+.msg-bookmark-icon:hover {
+    transform: scale(1.2);
+}
+
+/* 북마크된 메시지 강조 */
+.mes.has-bookmark {
+    border-left: 3px solid #ffd700;
+}
+
+/* 북마크 편집 팝업 */
+.bookmark-edit-popup {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 280px;
+}
+
+.bookmark-color-section label,
+.bookmark-note-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.bookmark-color-picker {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.bookmark-color-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    padding: 0;
+}
+
+.bookmark-color-btn:hover {
+    transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.bookmark-color-btn.selected {
+    border-color: #fff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    transform: scale(1.15);
+}
+
+.bookmark-note-section textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--SmartThemeBorderColor);
+    background: var(--SmartThemeBlurTintColor);
+    color: var(--SmartThemeBodyColor);
+    resize: vertical;
+    min-height: 80px;
+}
+
+.bookmark-note-section textarea:focus {
+    outline: none;
+    border-color: #ffd700;
+}
+
+/* 북마크 버튼 스타일 */
+.mes_bookmark_btn {
+    opacity: 0.5;
+    transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.mes_bookmark_btn:hover {
+    opacity: 1;
+}
+
+.mes_bookmark_btn.bookmarked {
+    color: #ffd700;
+    opacity: 1;
+}
+
+/* 하이라이트 스타일 */
+.msg-highlight {
+    padding: 1px 2px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+.msg-highlight:hover {
+    filter: brightness(0.9);
+}
+
+/* 북마크 패널 */
+.bookmark-panel {
+    position: fixed;
+    right: 20px;
+    top: 100px;
+    width: 350px;
+    max-height: 70vh;
+    background: var(--SmartThemeBlurTintColor);
+    border: 1px solid var(--SmartThemeBorderColor);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(10px);
+}
+
+.bookmark-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--SmartThemeBorderColor);
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px 10px 0 0;
+}
+
+.bookmark-panel-header h3 {
+    margin: 0;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bookmark-panel-header h3 i {
+    color: #ffd700;
+}
+
+/* 패널 컨트롤 */
+.bookmark-panel-controls {
+    padding: 8px 15px;
+    border-bottom: 1px solid var(--SmartThemeBorderColor);
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.bookmark-panel-controls .checkbox_label {
+    font-size: 13px;
+}
+
+#bookmark-panel-close {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+/* 채팅방 헤더 */
+.bookmark-chat-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    margin-bottom: 8px;
+    margin-top: 12px;
+    font-weight: bold;
+    color: var(--SmartThemeQuoteColor);
+}
+
+.bookmark-chat-header:first-child {
+    margin-top: 0;
+}
+
+.bookmark-chat-header.current-chat {
+    background: rgba(255, 215, 0, 0.15);
+    color: #ffd700;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.bookmark-chat-header i {
+    font-size: 14px;
+}
+
+.bookmark-chat-header .chat-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bookmark-chat-header .bookmark-count {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.other-chat-badge {
+    background: rgba(128, 128, 128, 0.5);
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: normal;
+}
+
+/* 다른 채팅방 북마크 아이템 */
+.bookmark-item.other-chat-item {
+    opacity: 0.7;
+    border-left: 3px solid #888;
+}
+
+.bookmark-item.other-chat-item:hover {
+    opacity: 1;
+}
+
+.bookmark-list {
+    overflow-y: auto;
+    max-height: calc(70vh - 60px);
+    padding: 10px;
+}
+
+.bookmark-empty {
+    text-align: center;
+    padding: 30px;
+    color: var(--SmartThemeQuoteColor);
+    font-style: italic;
+}
+
+/* 북마크 아이템 */
+.bookmark-item {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--SmartThemeBorderColor);
+    border-left: 4px solid #ffd700;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.bookmark-item:hover {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: #ffd700;
+}
+
+.bookmark-item:last-child {
+    margin-bottom: 0;
+}
+
+.bookmark-item-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.bookmark-msg-id {
+    background: var(--SmartThemeQuoteColor);
+    color: var(--SmartThemeBodyColor);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+/* 북마크 색상 점 */
+.bookmark-color-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.bookmark-name {
+    font-weight: bold;
+    color: var(--SmartThemeCharaCardColor, #fff);
+}
+
+.highlight-count {
+    background: #ffa500;
+    color: #000;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 10px;
+    margin-left: auto;
+}
+
+.bookmark-preview {
+    font-size: 12px;
+    color: var(--SmartThemeQuoteColor);
+    margin-bottom: 6px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.bookmark-note {
+    background: rgba(255, 215, 0, 0.1);
+    border-left: 3px solid #ffd700;
+    padding: 6px 10px;
+    font-size: 12px;
+    margin-bottom: 8px;
+    border-radius: 0 4px 4px 0;
+}
+
+.bookmark-actions {
+    display: flex;
+    gap: 5px;
+    justify-content: flex-end;
+}
+
+.bookmark-actions button {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+.bookmark-actions .bookmark-delete {
+    color: #ff6b6b;
+}
+
+.bookmark-actions .bookmark-delete:hover {
+    background: rgba(255, 107, 107, 0.2);
+}
+
+/* 플래시 애니메이션 */
+.bookmark-highlight-flash {
+    animation: bookmark-flash 2s ease-out;
+}
+
+@keyframes bookmark-flash {
+    0% {
+        background-color: rgba(255, 215, 0, 0.4);
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
+/* 컨텍스트 메뉴 */
+.highlight-context-menu {
+    background: var(--SmartThemeBlurTintColor);
+    border: 1px solid var(--SmartThemeBorderColor);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    z-index: 99999;
+    min-width: 180px;
+    padding: 5px 0;
+    backdrop-filter: blur(10px);
+}
+
+.context-menu-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.15s ease;
+}
+
+.context-menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.context-menu-item i {
+    width: 16px;
+    text-align: center;
+}
+
+.context-menu-divider {
+    height: 1px;
+    background: var(--SmartThemeBorderColor);
+    margin: 5px 10px;
+}
+
+.color-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+}
+
+/* 설정 패널 */
+.message-bookmarks-settings .inline-drawer-content {
+    padding: 10px;
+}
+
+.message-bookmarks-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message-bookmarks-controls #mb-show-panel {
+    align-self: flex-start;
+    white-space: nowrap;
+}
+
+.mb-help {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.mb-help ul {
+    margin: 8px 0 0 0;
+    padding-left: 20px;
+}
+
+.mb-help li {
+    margin-bottom: 5px;
+    line-height: 1.4;
+}
+
+/* 설정 패널 색상 선택 */
+.mb-color-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mb-color-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mb-color-row label {
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+}
+
+.mb-color-picker {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.settings-color-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    padding: 0;
+}
+
+.settings-color-btn:hover {
+    transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.settings-color-btn.selected {
+    border-color: #fff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    transform: scale(1.15);
+}
+
+/* 색상 선택 버튼 */
+.color-pick-btn {
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.color-pick-btn:hover {
+    border-color: #fff;
+    transform: scale(1.05);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .bookmark-panel {
+        right: 10px;
+        left: 10px;
+        width: auto;
+        max-height: 60vh;
+    }
+}
+
+/* 모바일 플로팅 툴바 */
+.highlight-floating-toolbar {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--SmartThemeBlurTintColor);
+    border: 1px solid var(--SmartThemeBorderColor);
+    border-radius: 25px;
+    padding: 6px 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    z-index: 99999;
+    backdrop-filter: blur(10px);
+    animation: toolbar-appear 0.15s ease-out;
+}
+
+@keyframes toolbar-appear {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.floating-toolbar-colors {
+    display: flex;
+    gap: 4px;
+}
+
+.floating-color-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+    padding: 0;
+}
+
+.floating-color-btn:hover,
+.floating-color-btn:active {
+    transform: scale(1.15);
+    border-color: #fff;
+}
+
+.floating-highlight-btn {
+    width: 32px;
+    height: 28px;
+    border-radius: 14px;
+    border: none;
+    background: rgba(255, 255, 0, 0.3);
+    color: #ffff00;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, transform 0.15s ease;
+    font-size: 12px;
+}
+
+.floating-highlight-btn:hover,
+.floating-highlight-btn:active {
+    background: rgba(255, 255, 0, 0.5);
+    transform: scale(1.1);
+}
+
+.floating-bookmark-btn {
+    width: 32px;
+    height: 28px;
+    border-radius: 14px;
+    border: none;
+    background: rgba(255, 215, 0, 0.2);
+    color: #ffd700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.floating-bookmark-btn:hover,
+.floating-bookmark-btn:active {
+    background: rgba(255, 215, 0, 0.4);
+    transform: scale(1.1);
+}
+
+/* 터치 디바이스 최적화 */
+@media (pointer: coarse) {
+    .floating-color-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .floating-highlight-btn {
+        width: 40px;
+        height: 36px;
+    }
+
+    .floating-bookmark-btn {
+        width: 40px;
+        height: 36px;
+    }
+
+    .highlight-floating-toolbar {
+        padding: 8px 12px;
+        gap: 6px;
+    }
+
+    .floating-toolbar-colors {
+        gap: 6px;
+    }
+}
+
+/* 패널 버튼 그룹 */
+.mb-panel-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.mb-panel-buttons .menu_button {
+    white-space: nowrap;
+}
+
+/* 하이라이트 패널 */
+.highlight-panel {
+    position: fixed;
+    left: 20px;
+    top: 100px;
+    width: 380px;
+    max-height: 70vh;
+    background: var(--SmartThemeBlurTintColor);
+    border: 1px solid var(--SmartThemeBorderColor);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(10px);
+}
+
+.highlight-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--SmartThemeBorderColor);
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px 10px 0 0;
+}
+
+.highlight-panel-header h3 {
+    margin: 0;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.highlight-panel-header h3 i {
+    color: #ffff00;
+}
+
+.highlight-panel-controls {
+    padding: 8px 15px;
+    border-bottom: 1px solid var(--SmartThemeBorderColor);
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.highlight-panel-controls .checkbox_label {
+    font-size: 13px;
+}
+
+#highlight-panel-close {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.highlight-list {
+    overflow-y: auto;
+    max-height: calc(70vh - 100px);
+    padding: 10px;
+}
+
+.highlight-empty {
+    text-align: center;
+    padding: 30px;
+    color: var(--SmartThemeQuoteColor);
+    font-style: italic;
+}
+
+/* 하이라이트 채팅방 헤더 */
+.highlight-chat-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    margin-bottom: 8px;
+    margin-top: 12px;
+    font-weight: bold;
+    color: var(--SmartThemeQuoteColor);
+}
+
+.highlight-chat-header:first-child {
+    margin-top: 0;
+}
+
+.highlight-chat-header.current-chat {
+    background: rgba(255, 255, 0, 0.15);
+    color: #ffff00;
+    border: 1px solid rgba(255, 255, 0, 0.3);
+}
+
+.highlight-chat-header i {
+    font-size: 14px;
+}
+
+.highlight-chat-header .chat-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.highlight-count-badge {
+    background: rgba(255, 255, 0, 0.3);
+    color: #ffff00;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+}
+
+/* 하이라이트 리스트 아이템 */
+.highlight-list-item {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--SmartThemeBorderColor);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.highlight-list-item:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.highlight-list-item.other-chat-item {
+    opacity: 0.7;
+}
+
+.highlight-list-item.other-chat-item:hover {
+    opacity: 1;
+}
+
+.highlight-list-item-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.highlight-color-indicator {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.highlight-msg-id {
+    background: var(--SmartThemeQuoteColor);
+    color: var(--SmartThemeBodyColor);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.highlight-sender {
+    font-weight: bold;
+    color: var(--SmartThemeCharaCardColor, #fff);
+}
+
+.highlight-text-preview {
+    font-size: 13px;
+    color: var(--SmartThemeEmColor);
+    padding: 6px 10px;
+    border-left: 3px solid #ffff00;
+    background: rgba(255, 255, 0, 0.1);
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 6px;
+    font-style: italic;
+}
+
+.highlight-note {
+    font-size: 12px;
+    color: var(--SmartThemeQuoteColor);
+    padding: 4px 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    margin-bottom: 6px;
+}
+
+.highlight-list-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.highlight-list-actions button {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+.highlight-delete-btn {
+    color: #ff6b6b;
+}
+
+.highlight-delete-btn:hover {
+    background: rgba(255, 107, 107, 0.2);
+}
+
+/* 반응형 하이라이트 패널 */
+@media (max-width: 768px) {
+    .highlight-panel {
+        left: 10px;
+        right: 10px;
+        width: auto;
+        max-height: 60vh;
+    }
+}
