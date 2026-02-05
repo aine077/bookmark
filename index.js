@@ -15,6 +15,7 @@ const DEBUG = false;
 // 기본 설정
 const defaultSettings = {
     enabled: true,
+    highlightEnabled: true,
     highlightColors: [
         { name: '분홍', color: '#F5d2d2' },
         { name: '초록', color: '#a3ccda' },
@@ -99,6 +100,9 @@ function loadSettings() {
     
     if (extension_settings[MODULE_NAME].enabled === undefined) {
         extension_settings[MODULE_NAME].enabled = true;
+    }
+    if (extension_settings[MODULE_NAME].highlightEnabled === undefined) {
+        extension_settings[MODULE_NAME].highlightEnabled = true;
     }
 }
 
@@ -766,6 +770,9 @@ async function showColorPicker() {
 function setupContextMenu() {
     // 메시지 블록에서 우클릭 시 커스텀 메뉴 (데스크톱)
     $(document).on('contextmenu', '.mes_text', function(e) {
+        // 하이라이트 기능이 비활성화되면 기본 메뉴 사용
+        if (extension_settings[MODULE_NAME].highlightEnabled === false) return;
+        
         const selection = window.getSelection();
         if (selection.isCollapsed) return; // 선택된 텍스트가 없으면 기본 메뉴 사용
 
@@ -799,6 +806,9 @@ function setupMobileSelectionHandler() {
 
         // 약간의 딜레이 후 선택 확인 (선택이 완료될 때까지 대기)
         selectionTimeout = setTimeout(() => {
+            // 하이라이트 기능이 비활성화되면 툴바 표시 안함
+            if (extension_settings[MODULE_NAME].highlightEnabled === false) return;
+            
             const selection = window.getSelection();
             if (selection.isCollapsed || !selection.toString().trim()) {
                 return;
@@ -1098,6 +1108,11 @@ async function renderSettings() {
                             <span>활성화</span>
                         </label>
 
+                        <label class="checkbox_label">
+                            <input type="checkbox" id="mb-highlight-enabled" ${settings.highlightEnabled !== false ? 'checked' : ''}>
+                            <span>하이라이트 기능</span>
+                        </label>
+
                         <div class="mb-panel-buttons">
                             <button id="mb-show-panel" class="menu_button">
                                 <i class="fa-solid fa-bookmark"></i> 북마크 패널
@@ -1140,6 +1155,17 @@ async function renderSettings() {
     $('#mb-enabled').on('change', function() {
         extension_settings[MODULE_NAME].enabled = $(this).is(':checked');
         saveSettingsDebounced();
+    });
+
+    // 하이라이트 활성화 설정
+    $('#mb-highlight-enabled').on('change', function() {
+        extension_settings[MODULE_NAME].highlightEnabled = $(this).is(':checked');
+        saveSettingsDebounced();
+        if ($(this).is(':checked')) {
+            toastr.success('하이라이트 기능이 활성화되었습니다');
+        } else {
+            toastr.info('하이라이트 기능이 비활성화되었습니다');
+        }
     });
 
     // 북마크 색상 선택
