@@ -18,16 +18,16 @@ const defaultSettings = {
     highlightEnabled: true,
     highlightColors: [
         { name: '분홍', color: '#f5d2d2f3' },
-        { name: '초록', color: '#a3ccdad1' },
-        { name: '파랑', color: '#bde3c3e0' },
-        { name: '연분홍', color: '#f8f7badd' },
+        { name: '초록', color: '#a3ccdac3' },
+        { name: '파랑', color: '#bde3c3bf' },
+        { name: '연분홍', color: '#f8f7bac4' },
     
     ],
     bookmarkColors: [
         { name: '분홍', color: '#F5d2d2f3' },
-        { name: '하늘', color: '#a3ccdad1' },
-        { name: '민트', color: '#bde3c3e0' },
-        { name: '보라', color: '#f8f7badd' },
+        { name: '하늘', color: '#a3ccdac3' },
+        { name: '민트', color: '#bde3c3bf' },
+        { name: '보라', color: '#f8f7bac4' },
       
     ],
     defaultColor: '#F5d2d2',
