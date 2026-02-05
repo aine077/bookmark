@@ -16,21 +16,21 @@ const DEBUG = false;
 const defaultSettings = {
     enabled: true,
     highlightColors: [
-        { name: '노랑', color: '#ffff00' },
-        { name: '초록', color: '#90EE90' },
-        { name: '파랑', color: '#87CEEB' },
-        { name: '분홍', color: '#FFB6C1' },
-        { name: '주황', color: '#FFA500' },
+        { name: '분홍', color: '#F5d2d2' },
+        { name: '초록', color: '#a3ccda' },
+        { name: '파랑', color: '#bde3c3' },
+        { name: '연분홍', color: '#f8f7ba' },
+    
     ],
     bookmarkColors: [
-        { name: '분홍', color: '#FF69B4' },
-        { name: '하늘', color: '#87CEEB' },
-        { name: '민트', color: '#98FF98' },
-        { name: '보라', color: '#DDA0DD' },
-        { name: '주황', color: '#FFA07A' },
+        { name: '분홍', color: '#F5d2d2' },
+        { name: '하늘', color: '#a3ccda' },
+        { name: '민트', color: '#bde3c3' },
+        { name: '보라', color: '#f8f7ba' },
+      
     ],
-    defaultColor: '#ffff00',
-    defaultBookmarkColor: '#FF69B4',
+    defaultColor: '#F5d2d2',
+    defaultBookmarkColor: '#F5d2d2',
     showBookmarkPanel: true,
     // 전역 북마크 저장소 (모든 채팅방의 북마크)
     globalBookmarks: {},
@@ -48,7 +48,7 @@ const defaultSettings = {
 //                 {
 //                     id: 'highlight-id',
 //                     text: '하이라이트된 텍스트',
-//                     color: '#ffff00',
+//                     color: '#f5d2d2',
 //                     startOffset: 0,
 //                     endOffset: 10,
 //                     note: '하이라이트 메모'
@@ -93,9 +93,10 @@ function loadSettings() {
     if (!extension_settings[MODULE_NAME].globalBookmarks) {
         extension_settings[MODULE_NAME].globalBookmarks = {};
     }
-    if (!extension_settings[MODULE_NAME].highlightColors) {
-        extension_settings[MODULE_NAME].highlightColors = defaultSettings.highlightColors;
-    }
+    // 항상 최신 색상으로 업데이트
+    extension_settings[MODULE_NAME].highlightColors = defaultSettings.highlightColors;
+    extension_settings[MODULE_NAME].bookmarkColors = defaultSettings.bookmarkColors;
+    
     if (extension_settings[MODULE_NAME].enabled === undefined) {
         extension_settings[MODULE_NAME].enabled = true;
     }
@@ -153,7 +154,7 @@ function addBookmark(messageId, note = '', color = null) {
     const existing = findBookmarkByMessageId(messageId);
     
     // 색상이 지정되지 않으면 설정에서 기본 색상 사용
-    const bookmarkColor = color || extension_settings[MODULE_NAME].defaultBookmarkColor || '#ffd700';
+    const bookmarkColor = color || extension_settings[MODULE_NAME].defaultBookmarkColor || '#F5d2d2';
     
     // 메시지 정보 가져오기
     const message = chat[messageId];
@@ -320,7 +321,7 @@ function updateBookmarkUI(messageId) {
 
     // 북마크 리본 업데이트
     let bookmarkRibbon = messageElement.find('.msg-bookmark-ribbon');
-    const bookmarkColor = bookmark?.color || '#ffd700';
+    const bookmarkColor = bookmark?.color || '#F5d2d2';
 
     // 하이라이트 전용이면 북마크 표시 안함
     const isActualBookmark = bookmark && !bookmark.isHighlightOnly;
@@ -328,9 +329,7 @@ function updateBookmarkUI(messageId) {
     if (isActualBookmark) {
         // 리본 표시 (상단 오른쪽)
         if (!bookmarkRibbon.length) {
-            const ribbonHtml = `<div class="msg-bookmark-ribbon" title="북마크됨" style="background-color: ${bookmarkColor};">
-                <i class="fa-solid fa-bookmark"></i>
-            </div>`;
+            const ribbonHtml = `<div class="msg-bookmark-ribbon" title="북마크됨" style="background-color: ${bookmarkColor};"></div>`;
             messageElement.append(ribbonHtml);
         } else {
             bookmarkRibbon.css('background-color', bookmarkColor);
@@ -407,13 +406,12 @@ function updateBookmarkPanel() {
             }
 
             const highlightCount = bookmark.highlights ? bookmark.highlights.length : 0;
-            const bookmarkColor = bookmark.color || '#ffd700';
+            const bookmarkColor = bookmark.color || '#F5d2d2';
 
             const itemHtml = `
                 <div class="bookmark-item ${isCurrentChat ? '' : 'other-chat-item'}" 
                      data-message-id="${bookmark.messageId}" 
-                     data-chat-id="${chatId}"
-                     style="border-left-color: ${bookmarkColor};">
+                     data-chat-id="${chatId}">
                     <div class="bookmark-item-header">
                         <span class="bookmark-color-dot" style="background-color: ${bookmarkColor};"></span>
                         <span class="bookmark-msg-id">#${bookmark.messageId}</span>
@@ -531,7 +529,7 @@ async function editBookmarkNoteGlobal(chatId, messageId) {
 
     const bookmark = chatData.bookmarks.find(b => b.messageId === messageId);
     const currentNote = bookmark ? bookmark.note : '';
-    const currentColor = bookmark ? bookmark.color : '#ffd700';
+    const currentColor = bookmark ? bookmark.color : '#F5d2d2';
 
     // 색상 및 메모 선택 팝업
     const result = await showBookmarkEditPopup(currentNote, currentColor);
@@ -648,7 +646,7 @@ async function editBookmarkNote(messageId) {
     const bookmark = findBookmarkByMessageId(messageId);
     const currentNote = bookmark ? bookmark.note : '';
     // 기존 색상 유지, 없으면 설정의 기본 색상 사용
-    const color = bookmark?.color || extension_settings[MODULE_NAME].defaultBookmarkColor || '#ffd700';
+    const color = bookmark?.color || extension_settings[MODULE_NAME].defaultBookmarkColor || '#F5d2d2';
 
     const newNote = await callGenericPopup(
         '북마크 메모를 입력하세요 (선택사항):',
@@ -692,7 +690,7 @@ async function editHighlightNote(messageId, highlightId) {
  */
 async function highlightSelection(color = null) {
     // 색상이 지정되지 않으면 설정에서 기본 색상 사용
-    const highlightColor = color || extension_settings[MODULE_NAME].defaultHighlightColor || '#ffff00';
+    const highlightColor = color || extension_settings[MODULE_NAME].defaultHighlightColor || '#F5d2d2';
     
     const selection = window.getSelection();
     if (!selection.rangeCount || selection.isCollapsed) {
@@ -844,7 +842,7 @@ function showFloatingToolbar(selection, mesText) {
 
     const settings = extension_settings[MODULE_NAME];
     const highlightColors = settings.highlightColors || defaultSettings.highlightColors;
-    const bookmarkColor = settings.defaultBookmarkColor || '#ffd700';
+    const bookmarkColor = settings.defaultBookmarkColor || '#F5d2d2';
 
     // 선택 영역의 위치 계산
     const range = selection.getRangeAt(0);
@@ -911,7 +909,7 @@ function showHighlightContextMenu(x, y, messageId) {
 
     const settings = extension_settings[MODULE_NAME];
     const highlightColors = settings.highlightColors || defaultSettings.highlightColors;
-    const bookmarkColor = settings.defaultBookmarkColor || '#ffd700';
+    const bookmarkColor = settings.defaultBookmarkColor || '#F5d2d2';
 
     const colorItems = highlightColors.map(c =>
         `<div class="context-menu-item highlight-color-item" data-color="${c.color}">
@@ -1069,8 +1067,8 @@ async function renderSettings() {
     const settings = extension_settings[MODULE_NAME];
     const bookmarkColors = settings.bookmarkColors || defaultSettings.bookmarkColors;
     const highlightColors = settings.highlightColors || defaultSettings.highlightColors;
-    const currentBookmarkColor = settings.defaultBookmarkColor || '#ffd700';
-    const currentHighlightColor = settings.defaultHighlightColor || '#ffff00';
+    const currentBookmarkColor = settings.defaultBookmarkColor || '#F5d2d2';
+    const currentHighlightColor = settings.defaultHighlightColor || '#F5d2d2';
 
     const bookmarkColorButtons = bookmarkColors.map(c =>
         `<button type="button" class="settings-color-btn bookmark-color-option ${c.color === currentBookmarkColor ? 'selected' : ''}" 

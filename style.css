@@ -16,9 +16,9 @@
     position: absolute;
     top: 0;
     right: 10px;
-    width: 24px;
-    height: 32px;
-    background-color: #f39eb6;
+    width: 20px;
+    height: 28px;
+    
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
     z-index: 10;
     align-items: flex-start;
@@ -107,10 +107,6 @@
     opacity: 1;
 }
 
-.mes_bookmark_btn.bookmarked {
-    color: #f39eb6;
-    opacity: 1;
-}
 
 /* 하이라이트 스타일 */
 .msg-highlight {
@@ -262,7 +258,7 @@
 
 .bookmark-item:hover {
     background: rgba(255, 255, 255, 1);
-    border-color: #f39eb6;
+    border-color: var(--SmartThemeBorderColor);
 }
 
 .bookmark-item:last-child {
@@ -277,7 +273,7 @@
 }
 
 .bookmark-msg-id {
-    background: var(--SmartThemeQuoteColor);
+    background: rgba(243, 158, 182, 0.4);
     color: var(--SmartThemeBodyColor);
     padding: 2px 6px;
     border-radius: 4px;
@@ -300,7 +296,7 @@
 }
 
 .highlight-count {
-    background: var(--SmartThemeBorderColor);
+    background: rgba(243, 158, 182, 0.4);
     color: #000;
     padding: 2px 6px;
     border-radius: 10px;
@@ -722,8 +718,7 @@
 
 .highlight-chat-header.current-chat {
     background: rgba(255, 255, 255, 1);
-    color: #f39eb6;
-    border: 1px solid #f39eb6;
+    
 }
 
 .highlight-chat-header i {
@@ -784,7 +779,7 @@
 }
 
 .highlight-msg-id {
-    background: var(--SmartThemeQuoteColor);
+    background: rgba(243, 158, 182, 0.4);
     color: var(--SmartThemeBodyColor);
     padding: 2px 6px;
     border-radius: 4px;
