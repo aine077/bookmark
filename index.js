@@ -1098,7 +1098,7 @@ async function renderSettings() {
         <div class="message-bookmarks-settings">
             <div class="inline-drawer">
                 <div class="inline-drawer-toggle inline-drawer-header">
-                    <b>📑 Message Bookmarks</b>
+                    <b>📑북마크</b>
                     <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
                 </div>
                 <div class="inline-drawer-content">
@@ -1131,17 +1131,6 @@ async function renderSettings() {
                                     ${bookmarkColorButtons}
                                 </div>
                             </div>
-                        </div>
-
-                        <hr>
-
-                        <div class="mb-help">
-                            <b>사용 방법:</b>
-                            <ul>
-                                <li>메시지에서 텍스트를 선택하고 우클릭하여 하이라이트 추가</li>
-                                <li>메시지의 북마크 버튼(🔖)을 클릭하여 북마크 추가</li>
-                                <li>북마크 패널에서 모든 북마크 관리</li>
-                            </ul>
                         </div>
                     </div>
                 </div>
